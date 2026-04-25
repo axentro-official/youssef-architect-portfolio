@@ -1,1 +1,5 @@
-test
+const qs=(s,ctx=document)=>ctx.querySelector(s);const qsa=(s,ctx=document)=>[...ctx.querySelectorAll(s)];
+const menu=qs('[data-menu]'),links=qs('[data-links]');if(menu&&links){menu.addEventListener('click',()=>links.classList.toggle('open'));qsa('.nav-links a').forEach(a=>a.addEventListener('click',()=>links.classList.remove('open')))}
+const io=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('show');io.unobserve(e.target)}})},{threshold:.12});qsa('.reveal').forEach(el=>io.observe(el));
+qsa('[data-filter]').forEach(btn=>{btn.addEventListener('click',()=>{const v=btn.dataset.filter;qsa('[data-filter]').forEach(b=>b.classList.remove('active'));btn.classList.add('active');let count=0;qsa('[data-category]').forEach(card=>{const show=v==='all'||card.dataset.category.includes(v);card.style.display=show?'':'none';if(show)count++;});const empty=qs('.no-results');if(empty)empty.style.display=count?'none':'block';});});
+qsa('.tilt').forEach(card=>{card.addEventListener('mousemove',e=>{const r=card.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;const rx=((y/r.height)-.5)*-5,ry=((x/r.width)-.5)*5;card.style.transform=`perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-3px)`});card.addEventListener('mouseleave',()=>card.style.transform='')});
